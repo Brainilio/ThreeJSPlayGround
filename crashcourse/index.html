@@ -16,12 +16,22 @@
       }
       #info {
         position: absolute;
-        top: 10px;
+        top: 20px;
         width: 100%;
         text-align: center;
-        z-index: 100;
+        z-index: 300;
         display: block;
         color: white;
+      }
+
+      .line { 
+        background: black; 
+        width: 250px; 
+        height: 2px; 
+        border: solid 0px black; 
+        position: absolute;
+        z-index: 99999; 
+        display: block; 
       }
     </style>
   </head>
@@ -32,6 +42,10 @@
     </div>
     </section>
     <div id="info">Description</div>
+  
+    <canvas>
+      <div class="line"></div>
+    </canvas>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.4/gsap.min.js"></script>

@@ -14,7 +14,9 @@ function init() {
     1,
     500
   );
-  camera.position.set(0, 2, 10)
+  
+  camera.position.set(0, 10, 30)
+  // Camera.position.y == y position 
   camera.lookAt(0, 0, 0)
   scene = new THREE.Scene();
 
@@ -33,8 +35,7 @@ function init() {
   var size = 10;
   var divisions = 10;
 
-var gridHelper = new THREE.GridHelper( size, divisions );
-scene.add( gridHelper );
+
   document.body.appendChild(renderer.domElement);
 
 // Material -1
@@ -59,11 +60,6 @@ console.log(material.linewidth);
 
   var geometry = new THREE.BufferGeometry().setFromPoints(points);
 
-  for(let i = 0; i< points.length; i++) { 
-      points[i].x = 80; 
-      console.log(points[i].x);
-      
-  }
 
   line = new THREE.Line( geometry, material );
 
@@ -73,17 +69,17 @@ console.log(material.linewidth);
 
 //   Material 2
 
-var geometry2 = new THREE.SphereGeometry(0, 10, 10);
+var geometry2 = new THREE.BoxGeometry(20, 15, 0);
 var material2 = new THREE.MeshLambertMaterial({color: 0xffffff})
 mesh2 = new THREE.Mesh(geometry2, material2); 
 
 scene.add(mesh2);
   //   Controls
-  controls = new THREE.OrbitControls( camera, renderer.domElement );
+  // controls = new THREE.OrbitControls( camera, renderer.domElement );
 
     // light
     var light = new THREE.PointLight(0xFFFFFF, 1, 500)
-    light.position.set(20, 50, 30);
+    light.position.set(20, 30, 20);
     scene.add(light);
 
 // create an AudioListener and add it to the camera
@@ -99,14 +95,14 @@ audioLoader.load( './sounds/ambient.mp3', function( buffer ) {
 	sound.setBuffer( buffer );
 	sound.setLoop( true );
 	sound.setVolume( 0.5 );
-	// sound.play();
+	sound.play();
 });
 
   
 }
 
 function animate() {
-  setTimeout(function() { mesh2.rotation.y += 0.01 }, 5000)
+  // setTimeout(function() { mesh2.rotation.y += 10 }, 5000)
   // line.position.x += 0.002; 
   var endPoint = line.geometry.attributes.position.array[1];
 
@@ -128,16 +124,16 @@ function sceneAdd() {
 
 sceneAdd();
 
-var t1 = gsap.timeline().delay(2);
-console.log(t1);
-this.t1.to(this.mesh2.scale, 1.2, {x: 2, ease: Expo.easeOut})
-this.t1.to(this.mesh2.scale, 1.2, {x: .5, ease: Expo.easeOut})
-this.t1.to(this.mesh2.scale, 1.8, {x: 1, ease: Expo.easeOut})
-this.t1.to(this.mesh2.position, 1, {y: 2, ease: Expo.easeOut})
+// var t1 = gsap.timeline().delay(2);
+// console.log(t1);
+// this.t1.to(this.mesh2.scale, 1.2, {x: 2, ease: Expo.easeOut})
+// this.t1.to(this.mesh2.scale, 1.2, {x: .5, ease: Expo.easeOut})
+// this.t1.to(this.mesh2.scale, 1.8, {x: 1, ease: Expo.easeOut})
+// this.t1.to(this.mesh2.position, 1, {y: 2, ease: Expo.easeOut})
 
-var t2 = gsap.timeline().delay(5000); 
-this.t2.to(this.cube.scale, 2, {x: 3})
-// gsap.to(this.points[0], 0.8, {x: 0})
+// var t2 = gsap.timeline().delay(5000); 
+// this.t2.to(this.cube.scale, 2, {x: 3})
+// // gsap.to(this.points[0], 0.8, {x: 0})
 
-console.log(this.cube);
+// console.log(this.cube);
 

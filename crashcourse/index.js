@@ -1,139 +1,247 @@
+// var camera, scene, renderer;
+// var geometry, material, mesh;
+// var line, mesh2;
+// var points = [];
+// var geometry3;
+// var material3;
+// var cube;
+// var cloudGeo, cloudMaterial
+// let cloud; 
 
-var camera, scene, renderer;
-var geometry, material, mesh;
-var line, mesh2
-var points = [];
-var geometry3;
-var material3;
-var cube;
+
+// function init() {
+
+//   // New scene
+//   scene = new THREE.Scene();
+
+//   // Scene configs 
+//   scene.fog = new THREE.FogExp2(0x03544e, 0.001); 
+
+//   // Camera position;
+//   camera = new THREE.PerspectiveCamera(
+//     60,
+//     window.innerWidth / window.innerHeight,
+//     1,
+//     1000
+//   );
+//     camera.position.z = 1; 
+//     camera.rotation.x = 1.16; 
+//     camera.rotation.y = -0.12; 
+//     camera.rotation.z = 0.27; 
+  
+
+
+//   // Responsive resizing
+//   window.addEventListener("resize", function() {
+//     var WIDTH = window.innerWidth;
+//     var HEIGHT = window.innerHeight;
+//     renderer.setSize(WIDTH, HEIGHT);
+//     camera.aspect = WIDTH / HEIGHT;
+//     camera.updateProjectionMatrix();
+//   });
+
+//   // Renderer
+//   renderer = new THREE.WebGLRenderer({ antialias: true });
+//   renderer.setSize(window.innerWidth, window.innerHeight);
+//   renderer.setClearColor(scene.fog.color);
+//   var size = 10;
+//   var divisions = 10;
+//   document.body.appendChild(renderer.domElement);
+
+
+//   // Controls
+//   // controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+//   // Light
+//   // var light = new THREE.PointLight(0xffffff, 1, 500);
+//   // light.position.set(20, 30, 20);
+//   let ambient = new THREE.AmbientLight(0x555555); 
+//   scene.add(ambient); 
+  
+//   let directionalLight = new THREE.DirectionalLight(0xff8c19); 
+//   directionalLight.position.set(0, 0, 1); 
+//   scene.add(directionalLight); 
+
+//   let orangeLight = new THREE.PointLight(0xcc6600,50,450,1.7);
+//   orangeLight.position.set(200,300,100);
+//   scene.add(orangeLight);
+//   let redLight = new THREE.PointLight(0xd8547e,50,450,1.7);
+//   redLight.position.set(100,300,100);
+//   scene.add(redLight);
+//   let blueLight = new THREE.PointLight(0x3677ac,50,450,1.7);
+//   blueLight.position.set(300,300,200);
+//   scene.add(blueLight);
+
+
+//   // Load texture 
+//   // instantiate a loader
+// var loader = new THREE.TextureLoader();
+
+// // load a resource
+// loader.load(
+// 	// resource URL
+// 	'img/smoke.png',
+// 	// onLoad callback
+// 	function ( texture ) {
+// 		// in this example we create the material when the texture is loaded
+// 		var cloudMaterial = new THREE.MeshLambertMaterial( {
+// 			map: texture
+//      });
+//     });
+  
+// //   let loader = new THREE.TextureLoader(); 
+// //   loader.load('./img/smoke.png', function(texture) { 
+// //     cloudGeo = new THREE.PlaneBufferGeometry(500, 500); 
+// //     cloudMaterial = new THREE.MeshLambertMaterial({ 
+// //       map: texture, 
+// //       transparent: true
+// //   }); 
+// // }); 
+
+// for(let p = 0; p<50; p++) {
+//   cloud = new THREE.Mesh(cloudGeo, cloudMaterial); 
+//   cloud.position.set(
+//     Math.random()*800 - 400, 500, Math.random()*500-500
+//   ); 
+//   cloud.rotation.x = 1.16; 
+//   cloud.rotation.y = -0.12; 
+//   cloud.rotation.z = Math.random()*2*Math.PI; 
+//   cloud.material.opacity = 0.55; 
+//   scene.add(cloud); 
+//   console.log(cloud);
+// }
+
+//     // Material box
+//   var geometry2 = new THREE.BoxGeometry(1, 80, );
+//   var material2 = new THREE.MeshLambertMaterial({ color: 0xffffff });
+//   mesh2 = new THREE.Mesh(geometry2, material2);
+  
+
+//   // create an AudioListener and add it to the camera
+//   var listener = new THREE.AudioListener();
+//   camera.add(listener);
+//   // create a global audio source
+//   var sound = new THREE.Audio(listener);
+
+//   // load a sound and set it as the Audio object's buffer
+//   var audioLoader = new THREE.AudioLoader();
+//   audioLoader.load("./sounds/ambient.mp3", function(buffer) {
+//     sound.setBuffer(buffer);
+//     sound.setLoop(true);
+//     sound.setVolume(0.5);
+//     sound.play();
+//   });
+
+
+//   // Add objects to scene
+//   // scene.add(mesh2);
+//   // scene.add(light);
+
+// }
+
+// // Looping
+// function animate() {
+//   renderer.render(scene, camera);
+//   requestAnimationFrame(animate);
+// }
+
+// // Add everything to scene
+// function sceneAdd() {
+//   init();
+//   animate();
+// }
+
+// sceneAdd();
+
+// // Animations
+// // var t1 = gsap.timeline().delay(2);
+// // this.t1.to(this.mesh2.position, 1, { y: 2, ease: Expo.easeOut });
+
+
+let scene, camera, cloudParticles = []
 
 function init() {
-  camera = new THREE.PerspectiveCamera(
-    45, 
-    window.innerWidth / window.innerHeight,
-    1,
-    500
-  );
-  
-  camera.position.set(0, 10, 30)
-  // Camera.position.y == y position 
-  camera.lookAt(0, 0, 0)
   scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight,1,1000);
+  camera.position.z = 1;
+  camera.rotation.x = 1.16;
+  camera.rotation.y = -0.12;
+  camera.rotation.z = 0.27;
 
-  window.addEventListener( 'resize', function( )
-		{
-			var WIDTH = window.innerWidth;
-			var HEIGHT = window.innerHeight;
-			renderer.setSize( WIDTH, HEIGHT );
-			camera.aspect = WIDTH / HEIGHT;
-			camera.updateProjectionMatrix( );
-        } );
-        
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor("#4c4e52")
-  var size = 10;
-  var divisions = 10;
+  let ambient = new THREE.AmbientLight(0x555555);
+  scene.add(ambient);
 
+  let directionalLight = new THREE.DirectionalLight(0xff8c19);
+  directionalLight.position.set(0,0,1);
+  scene.add(directionalLight);
 
+  let orangeLight = new THREE.PointLight(0x406340,50,450,1.7);
+  orangeLight.position.set(200,300,100);
+  scene.add(orangeLight);
+  let redLight = new THREE.PointLight(0x293029,50,450,1.7);
+  redLight.position.set(100,300,100);
+  scene.add(redLight);
+  let blueLight = new THREE.PointLight(0x182918,50,450,1.7);
+  blueLight.position.set(300,300,200);
+  scene.add(blueLight);
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  scene.fog = new THREE.FogExp2(0x262626, 0.001);
+  renderer.setClearColor(scene.fog.color);
   document.body.appendChild(renderer.domElement);
 
-// Material -1
-geometry3 = new THREE.BoxGeometry(0, 0.02, 0.05); 
-material3 = new THREE.MeshLambertMaterial({color: 0xffffff})
-cube = new THREE.Mesh(geometry3, material3); 
-cube.position.y = 2; 
-cube.position.x = 2
-cube.position.z = 1.2
-scene.add(cube);
-
-//Material 1
-  var material = new THREE.LineBasicMaterial({ 
-      color: 0xffffff, 
-      linewidth: 2
+  let loader = new THREE.TextureLoader();
+  loader.load("img/smoke.png", function(texture){
+    cloudGeo = new THREE.PlaneBufferGeometry(500,500);
+    cloudMaterial = new THREE.MeshLambertMaterial({
+      map:texture,
+      transparent: true
     });
 
-console.log(material.linewidth);
-  points.push(new THREE.Vector3(0, 0, 2));
-  points.push(new THREE.Vector3(2, 0, 2));
+    for(let p=0; p<50; p++) {
+      let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
+      cloud.position.set(
+        Math.random()*800 -400,
+        500,
+        Math.random()*500-500
+      );
+      cloud.rotation.x = 1.16;
+      cloud.rotation.y = -0.12;
+      cloud.rotation.z = Math.random()*2*Math.PI;
+      cloud.material.opacity = 0.55;
+      cloudParticles.push(cloud);
+      scene.add(cloud);
+    }
+  });
 
 
-  var geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-
-  line = new THREE.Line( geometry, material );
-
-
-  scene.add(line);
-  console.log(line);  
-
-//   Material 2
-
-var geometry2 = new THREE.BoxGeometry(20, 15, 0);
-var material2 = new THREE.MeshLambertMaterial({color: 0xffffff})
-mesh2 = new THREE.Mesh(geometry2, material2); 
-
-scene.add(mesh2);
-  //   Controls
-  // controls = new THREE.OrbitControls( camera, renderer.domElement );
-
-    // light
-    var light = new THREE.PointLight(0xFFFFFF, 1, 500)
-    light.position.set(20, 30, 20);
-    scene.add(light);
-
-// create an AudioListener and add it to the camera
-var listener = new THREE.AudioListener();
-camera.add( listener );
-
-// create a global audio source
-var sound = new THREE.Audio( listener );
-
-// load a sound and set it as the Audio object's buffer
-var audioLoader = new THREE.AudioLoader();
-audioLoader.load( './sounds/ambient.mp3', function( buffer ) {
-	sound.setBuffer( buffer );
-	sound.setLoop( true );
-	sound.setVolume( 0.5 );
-	sound.play();
-});
-
-  
+    render();
 }
-
-function animate() {
-  // setTimeout(function() { mesh2.rotation.y += 10 }, 5000)
-  // line.position.x += 0.002; 
-  var endPoint = line.geometry.attributes.position.array[1];
-
-  if(endPoint != 2) { 
-   
-      endPoint++
-    
-  }
-  // setTimeout(function() {line.geometry.attributes.position.array[3] = 3}, 5000);  
-
-  requestAnimationFrame(animate);
+function render() {
+  cloudParticles.forEach(p => {
+    p.rotation.z -=0.001;
+    // p.position.x += Math.random() * 3
+  });
+  requestAnimationFrame(render);
   renderer.render(scene, camera);
 }
 
-function sceneAdd() {
-  init();
-  animate();
-}
+init();
 
-sceneAdd();
+let apiData; 
+let apiCountry; 
 
-// var t1 = gsap.timeline().delay(2);
-// console.log(t1);
-// this.t1.to(this.mesh2.scale, 1.2, {x: 2, ease: Expo.easeOut})
-// this.t1.to(this.mesh2.scale, 1.2, {x: .5, ease: Expo.easeOut})
-// this.t1.to(this.mesh2.scale, 1.8, {x: 1, ease: Expo.easeOut})
-// this.t1.to(this.mesh2.position, 1, {y: 2, ease: Expo.easeOut})
-
-// var t2 = gsap.timeline().delay(5000); 
-// this.t2.to(this.cube.scale, 2, {x: 3})
-// // gsap.to(this.points[0], 0.8, {x: 0})
-
-// console.log(this.cube);
+fetch('https://api.airvisual.com/v2/countries?key=2459f634-caa6-4274-9ce4-b1ddc4399580')
+.then(response => { 
+  return response.json();
+}).then(users => { 
+  apiData = users.data;
+  for(let i = 0; i<apiData.length; i++) { 
+    if(apiData[i].country == "USA") { 
+      apiCountry = apiData[i].country;
+      console.log(apiCountry);
+    }
+  }
+})
 

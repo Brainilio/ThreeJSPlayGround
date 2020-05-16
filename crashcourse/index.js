@@ -160,13 +160,22 @@
 
 let scene, camera, cloudParticles = []
 
-function init() {
+function init(cloudIndex) {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight,1,1000);
   camera.position.z = 1;
   camera.rotation.x = 1.16;
   camera.rotation.y = -0.12;
   camera.rotation.z = 0.27;
+
+    // Responsive resizing
+  window.addEventListener("resize", function() {
+    var WIDTH = window.innerWidth;
+    var HEIGHT = window.innerHeight;
+    renderer.setSize(WIDTH, HEIGHT);
+    camera.aspect = WIDTH / HEIGHT;
+    camera.updateProjectionMatrix();
+  });
 
   let ambient = new THREE.AmbientLight(0x555555);
   scene.add(ambient);
@@ -199,7 +208,8 @@ function init() {
       transparent: true
     });
 
-    for(let p=0; p<50; p++) {
+   
+      for(let i = 0; i < cloudIndex; i++) { 
       let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
       cloud.position.set(
         Math.random()*800 -400,
@@ -212,36 +222,55 @@ function init() {
       cloud.material.opacity = 0.55;
       cloudParticles.push(cloud);
       scene.add(cloud);
-    }
+      console.log
+      console.log(cloud);
+      }
   });
-
 
     render();
 }
+
+
 function render() {
   cloudParticles.forEach(p => {
     p.rotation.z -=0.001;
-    // p.position.x += Math.random() * 3
+    
+    if(p.position.x > 200|| p.position.y > 200) { 
+      p.position.x = 0; 
+    } else { 
+      p.position.x =+ Math.random() * 200
+    }
   });
   requestAnimationFrame(render);
   renderer.render(scene, camera);
 }
 
-init();
+// let apiData; 
+// let apiCountry; 
 
-let apiData; 
-let apiCountry; 
+// fetch('https://api.airvisual.com/v2/countries?key=2459f634-caa6-4274-9ce4-b1ddc4399580')
+// .then(response => { 
+//   return response.json();
+// }).then(users => { 
+//   apiData = users.data;
+//   for(let i = 0; i<apiData.length; i++) { 
+//     if(apiData[i].country == "USA") { 
+//       apiCountry = apiData[i].country;
+//       console.log(apiCountry);
+//     }
+//   }
+// }).catch((error) => { 
+//   console.log(error);
+// })
 
-fetch('https://api.airvisual.com/v2/countries?key=2459f634-caa6-4274-9ce4-b1ddc4399580')
+let url = 'https://api.breezometer.com/air-quality/v2/current-conditions?lat=34.0326633&lon=-118.2111158&key=4b1108d891904f8f8582a170a552a47a&features=breezometer_aqi,local_aqi,sources_and_effects';
+
+fetch(url)
 .then(response => { 
-  return response.json();
-}).then(users => { 
-  apiData = users.data;
-  for(let i = 0; i<apiData.length; i++) { 
-    if(apiData[i].country == "USA") { 
-      apiCountry = apiData[i].country;
-      console.log(apiCountry);
-    }
-  }
+  return response.json(); 
+}).then(data => { 
+  console.log(data.data.indexes.baqi.aqi);
+  init(data.data.indexes.baqi.aqi);
+}).catch((e) => { 
+  console.log("Error occured." + e); 
 })
-
